@@ -32,7 +32,9 @@ You can Download the jsonl files through these links.
     - [ToTTo](https://drive.google.com/file/d/1nOlhGKpTWPCmAwmEI_gdALkAXlMn2Tbk/view?usp=sharing) (Blind test set)
 5. Commonsense generation  
     - [CommonGen](https://drive.google.com/file/d/1UvCBenGMzdQyR25ka_1vmaPwGVFQzqvS/view?usp=sharing) (Blind test set)
+
 mkdir data
+
 put the xsum.zip in data
 
 
