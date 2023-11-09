@@ -50,13 +50,13 @@ python preprocess/preprocess.py --model_name  t5-small --dataset xsum
 ``` 
 This command will produce the tokenized files of XSum `tokenized_files/train.t5.jsonl, tokenized_files/val.t5.jsonl` with the tokenizer of t5-small  
 
-### Training
+### Training  example for t5-small
 #### Important: skip warmup this step, just run the " --warmup Flase" straightly 
 Becasuse paper author use 4 A100 to train the model, but we just have only one 3090 with 24G video memoey in our experiment, train the model always raise the error of "cuda out of memory" 
-The pretrained model I had downloaded it from https://huggingface.co/t5-small/tree/main, and put it in the `./pretrained_weigths/xsum/t5(or pegasus)`
+The pretrained model I had downloaded it from https://huggingface.co/t5-small/tree/main, and put it in the `./pretrained_weigths/xsum/t5`
 ```
 #If you have enough graphics cards with sufficient memory and performance, you should use `--warmup True` to train the generation model with NLLLoss 
-python run_xsum.py --mode train --gpus 0(,1,2,3) --warmup True --model_name t5-small (or google/pegasus-large)
+python run_xsum.py --mode train --gpus 0(,1,2,3) --warmup True --model_name t5-small 
 ```
 with the `./pretrained_weigths/xsum/t5(or pegasus)`, you can skip the warmup
 you can set the --validate_every 1 to get the checkpoints quickly
@@ -74,15 +74,15 @@ You can run the following command to generate the results on test/dev set with a
 ```
 python run_xsum.py --mode val (or test) --model_name t5-small --save_path checkpoints/xsum/t5/2023-11-04-15-37-24-196200/ --gpus 0
 ```
-This will produce the generated results in the floder: `results/xsum/t5/2023-11-04-15-37-24-196200/` containing serval system output and ground truth files: `epoch-0_step-8000.val.sys` , `epoch-0_step-8000.val.ref`, `epoch-0_step-10000.val.sys` , `epoch-0_step-10000.val.ref`
+This will produce the generated results in the floder: `results/xsum/t5/2023-11-04-15-37-24-196200/` containing serval system output and ground truth files: `epoch-0_step-1.val.sys` , `epoch-0_step-1.val.ref`, `epoch-0_step-2.val.sys` , `epoch-0_step-2.val.ref`
 
 
 To generate the results for test set with  **a specified checkpoint**, you can use the `--ckpt`  parameter and remember to change the mode to `test`:
 ```
 python run_xsum.py --mode test --model_name t5-small --save_path checkpoints/xsum/t5/2023-11-04-15-37-24-196200/ \
---ckpt epoch-2_step-8000.pt --gpus 0,1,2,3
+--ckpt epoch-2_step-2.pt --gpus 0
 ```
-This will produce the generated results in the floder `results/xsum/t5/2023-11-04-15-37-24-196200/`  containing `epoch-0_step-8000.test.sys` , `epoch-0_step-8000.test.ref`
+This will produce the generated results in the floder `results/xsum/t5/2023-11-04-15-37-24-196200/`  containing `epoch-0_step-2.test.sys` , `epoch-0_step-2.test.ref`
 
 ### Evaluation
 This is an example to evaluate all the generated results for `xsum` in the folder `results/xsum/t5/2023-11-04-15-37-24-196200/`:
@@ -91,7 +91,7 @@ python evaluation/xsum/eval.py --sys_path results/xsum/t5/2023-11-04-15-37-24-19
 ```
 If you only want to evaluate a specified file：
 ```
-python evaluation/xsum/eval.py --sys_file results/xsum/t5/2023-11-04-15-37-24-196200/epoch-0_step-8000.sys
+python evaluation/xsum/eval.py --sys_file results/xsum/t5/2023-11-04-15-37-24-196200/epoch-0_step-2.sys
 ```
 
 ### Another Example: ToTTo
